@@ -4,22 +4,22 @@ import cn.yhm.developer.kuca.validation.annotation.Constraint;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
  * 元素值的范围校验注解
- * <p>
- * TODO：待完善
  *
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:05:34
  */
 @Constraint(validatedBy = {})
 @Documented
+@Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 @Retention(value = RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.FIELD})
+@Repeatable(value = ValidateRange.List.class)
 public @interface ValidateRange {
 
     /**
@@ -41,7 +41,7 @@ public @interface ValidateRange {
      *
      * @return {@link String}
      */
-    String message() default "{cn.yhm.developer.kuca.validation.annotation.RangeValid.message}";
+    String message() default "{cn.yhm.developer.kuca.validation.annotation.ValidateRange.message}";
 
     /**
      * 错误码
@@ -56,4 +56,11 @@ public @interface ValidateRange {
      * @return {@link Class}<{@link ?}>{@link []}
      */
     Class<?>[] groups() default {};
+
+    @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
+    @Retention(RetentionPolicy.RUNTIME)
+    @Documented
+    @interface List {
+        ValidateRange[] value();
+    }
 }

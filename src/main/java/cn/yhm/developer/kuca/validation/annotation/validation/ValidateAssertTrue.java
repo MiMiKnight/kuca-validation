@@ -5,6 +5,7 @@ import cn.yhm.developer.kuca.validation.validator.AssertTrueValidator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -17,8 +18,9 @@ import java.lang.annotation.Target;
  */
 @Constraint(validatedBy = {AssertTrueValidator.class})
 @Documented
+@Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 @Retention(value = RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.FIELD})
+@Repeatable(value = ValidateAssertTrue.List.class)
 public @interface ValidateAssertTrue {
 
     /**
@@ -26,7 +28,7 @@ public @interface ValidateAssertTrue {
      *
      * @return {@link String}
      */
-    String message() default "{cn.yhm.developer.kuca.validation.annotation.AssertTrueValid.message}";
+    String message() default "{cn.yhm.developer.kuca.validation.annotation.ValidateAssertTrue.message}";
 
     /**
      * 错误码
@@ -41,4 +43,11 @@ public @interface ValidateAssertTrue {
      * @return {@link Class}<{@link ?}>{@link []}
      */
     Class<?>[] groups() default {};
+
+    @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
+    @Retention(RetentionPolicy.RUNTIME)
+    @Documented
+    public @interface List {
+        ValidateAssertTrue[] value();
+    }
 }

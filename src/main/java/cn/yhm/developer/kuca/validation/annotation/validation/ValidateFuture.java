@@ -5,6 +5,7 @@ import cn.yhm.developer.kuca.validation.validator.FutureValidator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -23,8 +24,9 @@ import java.lang.annotation.Target;
  */
 @Constraint(validatedBy = {FutureValidator.class})
 @Documented
+@Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 @Retention(value = RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.FIELD})
+@Repeatable(value = ValidateFuture.List.class)
 public @interface ValidateFuture {
 
     /**
@@ -32,7 +34,7 @@ public @interface ValidateFuture {
      *
      * @return {@link String}
      */
-    String message() default "{cn.yhm.developer.kuca.validation.annotation.FutureValid.message}";
+    String message() default "{cn.yhm.developer.kuca.validation.annotation.ValidateFuture.message}";
 
     /**
      * 错误码
@@ -47,4 +49,11 @@ public @interface ValidateFuture {
      * @return {@link Class}<{@link ?}>{@link []}
      */
     Class<?>[] groups() default {};
+
+    @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
+    @Retention(RetentionPolicy.RUNTIME)
+    @Documented
+    @interface List {
+        ValidateFuture[] value();
+    }
 }

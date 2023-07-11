@@ -5,6 +5,7 @@ import cn.yhm.developer.kuca.validation.validator.PastValidator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
@@ -23,8 +24,9 @@ import java.lang.annotation.Target;
  */
 @Constraint(validatedBy = {PastValidator.class})
 @Documented
+@Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 @Retention(value = RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.FIELD})
+@Repeatable(value = ValidatePast.List.class)
 public @interface ValidatePast {
 
     /**
@@ -32,7 +34,7 @@ public @interface ValidatePast {
      *
      * @return {@link String}
      */
-    String message() default "{cn.yhm.developer.kuca.validation.annotation.PastValid.message}";
+    String message() default "{cn.yhm.developer.kuca.validation.annotation.ValidatePast.message}";
 
     /**
      * 错误码
@@ -47,4 +49,11 @@ public @interface ValidatePast {
      * @return {@link Class}<{@link ?}>{@link []}
      */
     Class<?>[] groups() default {};
+
+    @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
+    @Retention(RetentionPolicy.RUNTIME)
+    @Documented
+    @interface List {
+        ValidatePast[] value();
+    }
 }
