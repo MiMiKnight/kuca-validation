@@ -1,0 +1,1 @@
+# kuca-validation-spring-boot-starter

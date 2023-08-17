@@ -6,15 +6,15 @@
 
     <!--父工程-->
     <parent>
-        <groupId>com.github.mimiknight</groupId>
+        <groupId>com.github.mimiknight.kuca</groupId>
         <artifactId>kuca-parent-spring-boot-starter</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>0.0.1-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <!--本工程-->
     <artifactId>kuca-validation-spring-boot-starter</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Kuca Validation</name>
     <description>Kuca Validation 项目</description>
@@ -26,12 +26,12 @@
         <!--Maven 最低运行版本-->
         <maven.version>3.8.0</maven.version>
         <!--OpenJDK 最低运行版本-->
-        <jdk.version>11.0.2</jdk.version>
+        <jdk.version>17.0.2</jdk.version>
         <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.version>11</maven.compiler.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.version>17</maven.compiler.version>
     </properties>
 
     <!--引入依赖-->
@@ -146,25 +146,25 @@
                 </configuration>
             </plugin>
             <!--maven-javadoc-plugin-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-javadoc-plugin</artifactId>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>make-javadoc</id>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>javadoc-no-fork</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--                <configuration>-->
-<!--                    <attach>true</attach>-->
-<!--                    <encoding>UTF-8</encoding>-->
-<!--                    <charset>UTF-8</charset>-->
-<!--                    <docencoding>UTF-8</docencoding>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>make-javadoc</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>javadoc-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <attach>true</attach>
+                    <encoding>UTF-8</encoding>
+                    <charset>UTF-8</charset>
+                    <docencoding>UTF-8</docencoding>
+                </configuration>
+            </plugin>
             <!--maven-enforcer-plugin-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

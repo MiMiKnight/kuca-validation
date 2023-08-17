@@ -28,28 +28,27 @@ public class SizeValidator implements ConstraintValidator<ValidateSize, Object> 
         if (null == value) {
             return true;
         }
-        int size;
         // 字符串
-        if (value instanceof String) {
-            size = ((String) value).length();
-            return (size >= min && size <= max);
+        if (value instanceof String str) {
+            return valid(str.length());
         }
         // 数组
         if (value.getClass().isArray()) {
-            size = Array.getLength(value);
-            return (size >= min && size <= max);
+            return valid(Array.getLength(value));
         }
         // 单列集合
-        if (value instanceof Collection) {
-            size = ((Collection<?>) value).size();
-            return (size >= min && size <= max);
+        if (value instanceof Collection<?> collection) {
+            return valid(collection.size());
         }
         // 双列集合
-        if (value instanceof Map) {
-            size = ((Map<?, ?>) value).size();
-            return (size >= min && size <= max);
+        if (value instanceof Map<?, ?> map) {
+            return valid(map.size());
         }
         // 默认放通
         return true;
+    }
+
+    private boolean valid(int size) {
+        return (size >= min && size <= max);
     }
 }
