@@ -8,13 +8,13 @@
     <parent>
         <groupId>com.github.mimiknight.kuca</groupId>
         <artifactId>kuca-parent-spring-boot-starter</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1-SNAPSHOT-jdk8</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <!--本工程-->
     <artifactId>kuca-validation-spring-boot-starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT-jdk8</version>
     <packaging>jar</packaging>
     <name>Kuca Validation</name>
     <description>Kuca Validation 项目</description>
@@ -25,13 +25,13 @@
         <project.encoding>UTF-8</project.encoding>
         <!--Maven 最低运行版本-->
         <maven.version>3.8.0</maven.version>
-        <!--OpenJDK 最低运行版本-->
-        <jdk.version>17.0.2</jdk.version>
+        <!--OracleJDK 最低运行版本-->
+        <jdk.version>1.8.0_371</jdk.version>
         <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${project.encoding}</project.reporting.outputEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <maven.compiler.version>17</maven.compiler.version>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.version>8</maven.compiler.version>
     </properties>
 
     <!--引入依赖-->
@@ -68,31 +68,14 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+        </dependency>
     </dependencies>
 
     <!--build-->
     <build>
-        <!--资源-->
-        <resources>
-            <!--把src/main/java下指定文件拷贝到classes类路径下-->
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-            </resource>
-            <!--把src/main/resource下指定文件拷贝到classes类路径下-->
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                    <include>**/*.properties</include>
-                    <include>**/*.yaml</include>
-                    <include>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</include>
-                </includes>
-            </resource>
-        </resources>
-
         <plugins>
             <!--maven-compiler-plugin-->
             <plugin>
@@ -118,14 +101,6 @@
                         <!--启用所有推荐的警告-->
                         <arg>-Xlint:all</arg>
                     </compilerArgs>
-                </configuration>
-            </plugin>
-            <!--maven-resources-plugin-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <configuration>
-                    <encoding>${project.encoding}</encoding>
                 </configuration>
             </plugin>
             <!--maven-source-plugin-->
