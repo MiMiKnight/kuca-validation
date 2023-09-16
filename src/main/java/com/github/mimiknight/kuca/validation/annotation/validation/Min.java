@@ -1,6 +1,7 @@
 package com.github.mimiknight.kuca.validation.annotation.validation;
 
 import com.github.mimiknight.kuca.validation.annotation.Constraint;
+import com.github.mimiknight.kuca.validation.validator.MinValidator;
 import com.github.mimiknight.kuca.validation.validator.SizeValidator;
 
 import java.lang.annotation.Documented;
@@ -16,7 +17,7 @@ import java.lang.annotation.Target;
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:05:34
  */
-@Constraint(validatedBy = {SizeValidator.class})
+@Constraint(validatedBy = {MinValidator.class})
 @Documented
 @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 @Retention(value = RetentionPolicy.RUNTIME)
