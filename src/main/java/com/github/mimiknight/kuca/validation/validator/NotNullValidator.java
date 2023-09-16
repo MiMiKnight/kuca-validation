@@ -1,6 +1,6 @@
 package com.github.mimiknight.kuca.validation.validator;
 
-import com.github.mimiknight.kuca.validation.annotation.validation.ValidateNotNull;
+import com.github.mimiknight.kuca.validation.annotation.validation.NotNull;
 
 /**
  * 参数非空校验器
@@ -8,10 +8,9 @@ import com.github.mimiknight.kuca.validation.annotation.validation.ValidateNotNu
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:13:23
  */
-public class NotNullValidator implements ConstraintValidator<ValidateNotNull, Object> {
+public class NotNullValidator implements ConstraintValidator<NotNull, Object> {
     @Override
-    public void initialize(ValidateNotNull constraintAnnotation) {
-        ConstraintValidator.super.initialize(constraintAnnotation);
+    public void initialize(NotNull constraintAnnotation) {
     }
 
     @Override

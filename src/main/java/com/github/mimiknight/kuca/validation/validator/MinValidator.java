@@ -1,6 +1,6 @@
 package com.github.mimiknight.kuca.validation.validator;
 
-import com.github.mimiknight.kuca.validation.annotation.validation.ValidateMin;
+import com.github.mimiknight.kuca.validation.annotation.validation.Min;
 
 /**
  * 最小值校验器
@@ -8,12 +8,12 @@ import com.github.mimiknight.kuca.validation.annotation.validation.ValidateMin;
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:13:23
  */
-public class MinValidator implements ConstraintValidator<ValidateMin, Number> {
+public class MinValidator implements ConstraintValidator<Min, Number> {
     private double min;
     private double delta;
 
     @Override
-    public void initialize(ValidateMin constraintAnnotation) {
+    public void initialize(Min constraintAnnotation) {
         this.min = constraintAnnotation.min();
         this.delta = constraintAnnotation.delta();
     }

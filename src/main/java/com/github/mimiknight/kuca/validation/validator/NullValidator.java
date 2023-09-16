@@ -1,6 +1,6 @@
 package com.github.mimiknight.kuca.validation.validator;
 
-import com.github.mimiknight.kuca.validation.annotation.validation.ValidateNull;
+import com.github.mimiknight.kuca.validation.annotation.validation.Null;
 
 /**
  * 参数为空校验器
@@ -8,10 +8,9 @@ import com.github.mimiknight.kuca.validation.annotation.validation.ValidateNull;
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:13:23
  */
-public class NullValidator implements ConstraintValidator<ValidateNull, Object> {
+public class NullValidator implements ConstraintValidator<Null, Object> {
     @Override
-    public void initialize(ValidateNull constraintAnnotation) {
-        ConstraintValidator.super.initialize(constraintAnnotation);
+    public void initialize(Null constraintAnnotation) {
     }
 
     @Override

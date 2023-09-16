@@ -1,7 +1,7 @@
 package com.github.mimiknight.kuca.validation.annotation.validation;
 
 import com.github.mimiknight.kuca.validation.annotation.Constraint;
-import com.github.mimiknight.kuca.validation.validator.PositiveValidator;
+import com.github.mimiknight.kuca.validation.validator.AssertFalseValidator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -11,24 +11,24 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 正数校验注解
+ * false校验注解
  *
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:05:34
  */
-@Constraint(validatedBy = {PositiveValidator.class})
+@Constraint(validatedBy = {AssertFalseValidator.class})
 @Documented
 @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 @Retention(value = RetentionPolicy.RUNTIME)
-@Repeatable(value = ValidatePositive.List.class)
-public @interface ValidatePositive {
+@Repeatable(value = AssertFalse.List.class)
+public @interface AssertFalse {
 
     /**
      * 消息
      *
      * @return {@link String}
      */
-    String message() default "{cn.yhm.developer.kuca.validation.annotation.ValidatePositive.message}";
+    String message() default "{com.github.mimiknight.kuca.validation.annotation.validation.AssertFalse.message}";
 
     /**
      * 错误码
@@ -47,7 +47,7 @@ public @interface ValidatePositive {
     @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
-    @interface List {
-        ValidatePositive[] value();
+    public @interface List {
+        AssertFalse[] value();
     }
 }

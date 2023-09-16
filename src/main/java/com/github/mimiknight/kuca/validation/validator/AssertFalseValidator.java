@@ -1,6 +1,6 @@
 package com.github.mimiknight.kuca.validation.validator;
 
-import com.github.mimiknight.kuca.validation.annotation.validation.ValidateAssertFalse;
+import com.github.mimiknight.kuca.validation.annotation.validation.AssertFalse;
 
 /**
  * 参数为false校验器
@@ -8,10 +8,9 @@ import com.github.mimiknight.kuca.validation.annotation.validation.ValidateAsser
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:13:23
  */
-public class AssertFalseValidator implements ConstraintValidator<ValidateAssertFalse, Boolean> {
+public class AssertFalseValidator implements ConstraintValidator<AssertFalse, Boolean> {
     @Override
-    public void initialize(ValidateAssertFalse constraintAnnotation) {
-        ConstraintValidator.super.initialize(constraintAnnotation);
+    public void initialize(AssertFalse constraintAnnotation) {
     }
 
     @Override

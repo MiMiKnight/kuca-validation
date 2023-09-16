@@ -1,6 +1,6 @@
 package com.github.mimiknight.kuca.validation.validator;
 
-import com.github.mimiknight.kuca.validation.annotation.validation.ValidateStringEnum;
+import com.github.mimiknight.kuca.validation.annotation.validation.StringEnum;
 
 import java.util.Arrays;
 
@@ -10,12 +10,12 @@ import java.util.Arrays;
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:13:23
  */
-public class StringEnumValidator implements ConstraintValidator<ValidateStringEnum, String> {
+public class StringEnumValidator implements ConstraintValidator<StringEnum, String> {
 
     private String[] enumValueArray;
 
     @Override
-    public void initialize(ValidateStringEnum constraintAnnotation) {
+    public void initialize(StringEnum constraintAnnotation) {
         this.enumValueArray = constraintAnnotation.value();
     }
 

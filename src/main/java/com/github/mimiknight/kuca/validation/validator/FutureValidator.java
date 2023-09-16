@@ -1,6 +1,6 @@
 package com.github.mimiknight.kuca.validation.validator;
 
-import com.github.mimiknight.kuca.validation.annotation.validation.ValidateFuture;
+import com.github.mimiknight.kuca.validation.annotation.validation.Future;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -17,10 +17,9 @@ import java.util.Date;
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:13:23
  */
-public class FutureValidator implements ConstraintValidator<ValidateFuture, Object> {
+public class FutureValidator implements ConstraintValidator<Future, Object> {
     @Override
-    public void initialize(ValidateFuture constraintAnnotation) {
-        ConstraintValidator.super.initialize(constraintAnnotation);
+    public void initialize(Future constraintAnnotation) {
     }
 
     @Override
@@ -29,39 +28,39 @@ public class FutureValidator implements ConstraintValidator<ValidateFuture, Obje
             return true;
         }
         // Date
-        if (value instanceof Date date) {
+        if (value instanceof Date) {
             Date now = Date.from(Instant.now());
-            return now.before(date);
+            return now.before((Date) value);
         }
         // LocalTime
-        if (value instanceof LocalTime date) {
+        if (value instanceof LocalTime) {
             LocalTime now = LocalTime.now();
-            return now.isBefore(date);
+            return now.isBefore((LocalTime) value);
         }
         // LocalDate
-        if (value instanceof LocalDate date) {
+        if (value instanceof LocalDate) {
             LocalDate now = LocalDate.now();
-            return now.isBefore(date);
+            return now.isBefore((LocalDate) value);
         }
         // LocalDateTime
-        if (value instanceof LocalDateTime date) {
+        if (value instanceof LocalDateTime) {
             LocalDateTime now = LocalDateTime.now();
-            return now.isBefore(date);
+            return now.isBefore((LocalDateTime) value);
         }
         // ZonedDateTime
-        if (value instanceof ZonedDateTime date) {
+        if (value instanceof ZonedDateTime) {
             ZonedDateTime now = ZonedDateTime.now();
-            return now.isBefore(date);
+            return now.isBefore((ZonedDateTime) value);
         }
         // OffsetDateTime
-        if (value instanceof OffsetDateTime date) {
+        if (value instanceof OffsetDateTime) {
             OffsetDateTime now = OffsetDateTime.now();
-            return now.isBefore(date);
+            return now.isBefore((OffsetDateTime) value);
         }
         // OffsetTime
-        if (value instanceof OffsetTime date) {
+        if (value instanceof OffsetTime) {
             OffsetTime now = OffsetTime.now();
-            return now.isBefore(date);
+            return now.isBefore((OffsetTime) value);
         }
         // 默认放通
         return true;

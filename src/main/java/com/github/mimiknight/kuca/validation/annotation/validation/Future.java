@@ -1,7 +1,7 @@
 package com.github.mimiknight.kuca.validation.annotation.validation;
 
 import com.github.mimiknight.kuca.validation.annotation.Constraint;
-import com.github.mimiknight.kuca.validation.validator.PastValidator;
+import com.github.mimiknight.kuca.validation.validator.FutureValidator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 过去时间校验注解
+ * 未来时间校验注解
  * <p>
  * 支持校验以下两种时间类型：
  * <p>
@@ -22,19 +22,19 @@ import java.lang.annotation.Target;
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:05:34
  */
-@Constraint(validatedBy = {PastValidator.class})
+@Constraint(validatedBy = {FutureValidator.class})
 @Documented
 @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 @Retention(value = RetentionPolicy.RUNTIME)
-@Repeatable(value = ValidatePast.List.class)
-public @interface ValidatePast {
+@Repeatable(value = Future.List.class)
+public @interface Future {
 
     /**
      * 消息
      *
      * @return {@link String}
      */
-    String message() default "{cn.yhm.developer.kuca.validation.annotation.ValidatePast.message}";
+    String message() default "{com.github.mimiknight.kuca.validation.annotation.validation.Future.message}";
 
     /**
      * 错误码
@@ -54,6 +54,6 @@ public @interface ValidatePast {
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     @interface List {
-        ValidatePast[] value();
+        Future[] value();
     }
 }

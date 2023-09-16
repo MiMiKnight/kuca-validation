@@ -1,6 +1,6 @@
 package com.github.mimiknight.kuca.validation.validator;
 
-import com.github.mimiknight.kuca.validation.annotation.validation.ValidateNotEmpty;
+import com.github.mimiknight.kuca.validation.annotation.validation.NotEmpty;
 
 import java.lang.reflect.Array;
 import java.util.Collection;
@@ -12,10 +12,9 @@ import java.util.Map;
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:13:23
  */
-public class NotEmptyValidator implements ConstraintValidator<ValidateNotEmpty, Object> {
+public class NotEmptyValidator implements ConstraintValidator<NotEmpty, Object> {
     @Override
-    public void initialize(ValidateNotEmpty constraintAnnotation) {
-        ConstraintValidator.super.initialize(constraintAnnotation);
+    public void initialize(NotEmpty constraintAnnotation) {
     }
 
     @Override

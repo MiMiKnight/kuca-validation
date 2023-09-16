@@ -20,15 +20,15 @@ import java.lang.annotation.Target;
 @Documented
 @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 @Retention(value = RetentionPolicy.RUNTIME)
-@Repeatable(value = ValidateNotBlank.List.class)
-public @interface ValidateNotBlank {
+@Repeatable(value = NotBlank.List.class)
+public @interface NotBlank {
 
     /**
      * 消息
      *
      * @return {@link String}
      */
-    String message() default "{cn.yhm.developer.kuca.validation.annotation.ValidateNotBlank.message}";
+    String message() default "{com.github.mimiknight.kuca.validation.annotation.validation.NotBlank.message}";
 
     /**
      * 错误码
@@ -48,6 +48,6 @@ public @interface ValidateNotBlank {
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     @interface List {
-        ValidateNotBlank[] value();
+        NotBlank[] value();
     }
 }

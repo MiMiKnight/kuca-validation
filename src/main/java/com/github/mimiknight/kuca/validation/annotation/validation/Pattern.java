@@ -1,6 +1,7 @@
 package com.github.mimiknight.kuca.validation.annotation.validation;
 
 import com.github.mimiknight.kuca.validation.annotation.Constraint;
+import com.github.mimiknight.kuca.validation.validator.PatternValidator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,38 +11,31 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 元素值的范围校验注解
+ * 正则校验注解
  *
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:05:34
  */
-@Constraint(validatedBy = {})
+@Constraint(validatedBy = {PatternValidator.class})
 @Documented
 @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 @Retention(value = RetentionPolicy.RUNTIME)
-@Repeatable(value = ValidateRange.List.class)
-public @interface ValidateRange {
+@Repeatable(value = Pattern.List.class)
+public @interface Pattern {
 
     /**
-     * 最小值
+     * 正则表达式
      *
-     * @return int
+     * @return {@link String}
      */
-    double min() default 0;
-
-    /**
-     * 最大值
-     *
-     * @return int
-     */
-    double max() default Integer.MAX_VALUE;
+    String regex() default "";
 
     /**
      * 消息
      *
      * @return {@link String}
      */
-    String message() default "{cn.yhm.developer.kuca.validation.annotation.ValidateRange.message}";
+    String message() default "{com.github.mimiknight.kuca.validation.annotation.validation.Pattern.message}";
 
     /**
      * 错误码
@@ -61,6 +55,6 @@ public @interface ValidateRange {
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     @interface List {
-        ValidateRange[] value();
+        Pattern[] value();
     }
 }

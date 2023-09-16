@@ -1,7 +1,7 @@
 package com.github.mimiknight.kuca.validation.annotation.validation;
 
 import com.github.mimiknight.kuca.validation.annotation.Constraint;
-import com.github.mimiknight.kuca.validation.validator.FutureValidator;
+import com.github.mimiknight.kuca.validation.validator.SizeValidator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -11,30 +11,40 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 未来时间校验注解
- * <p>
- * 支持校验以下两种时间类型：
- * <p>
- * Date {@link java.util.Date}
- * <p>
- * ZonedDateTime {@link java.time.ZonedDateTime}
+ * 最小值校验注解
  *
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:05:34
  */
-@Constraint(validatedBy = {FutureValidator.class})
+@Constraint(validatedBy = {SizeValidator.class})
 @Documented
 @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 @Retention(value = RetentionPolicy.RUNTIME)
-@Repeatable(value = ValidateFuture.List.class)
-public @interface ValidateFuture {
+@Repeatable(value = Min.List.class)
+public @interface Min {
+
+    /**
+     * 最小值
+     *
+     * @return int
+     */
+    double min() default 0;
+
+    /**
+     * 精确度
+     * <p>
+     * 默认：10负6次方
+     *
+     * @return double
+     */
+    double delta() default 1E-6;
 
     /**
      * 消息
      *
      * @return {@link String}
      */
-    String message() default "{cn.yhm.developer.kuca.validation.annotation.ValidateFuture.message}";
+    String message() default "{com.github.mimiknight.kuca.validation.annotation.validation.Min.message}";
 
     /**
      * 错误码
@@ -54,6 +64,6 @@ public @interface ValidateFuture {
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     @interface List {
-        ValidateFuture[] value();
+        Min[] value();
     }
 }

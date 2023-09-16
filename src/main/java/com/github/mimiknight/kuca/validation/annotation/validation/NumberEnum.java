@@ -1,7 +1,7 @@
 package com.github.mimiknight.kuca.validation.annotation.validation;
 
 import com.github.mimiknight.kuca.validation.annotation.Constraint;
-import com.github.mimiknight.kuca.validation.validator.AssertTrueValidator;
+import com.github.mimiknight.kuca.validation.validator.NumberEnumValidator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -11,24 +11,40 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * true校验注解
+ * 数字类型参数枚举校验注解
  *
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:05:34
  */
-@Constraint(validatedBy = {AssertTrueValidator.class})
+@Constraint(validatedBy = {NumberEnumValidator.class})
 @Documented
 @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 @Retention(value = RetentionPolicy.RUNTIME)
-@Repeatable(value = ValidateAssertTrue.List.class)
-public @interface ValidateAssertTrue {
+@Repeatable(value = NumberEnum.List.class)
+public @interface NumberEnum {
+
+    /**
+     * 枚举值
+     *
+     * @return {@link long[]}
+     */
+    double[] value() default {};
+
+    /**
+     * 精确度
+     * <p>
+     * 默认：10负6次方
+     *
+     * @return double
+     */
+    double delta() default 1E-6;
 
     /**
      * 消息
      *
      * @return {@link String}
      */
-    String message() default "{cn.yhm.developer.kuca.validation.annotation.ValidateAssertTrue.message}";
+    String message() default "{com.github.mimiknight.kuca.validation.annotation.validation.NumberEnum.message}";
 
     /**
      * 错误码
@@ -47,7 +63,7 @@ public @interface ValidateAssertTrue {
     @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
-    public @interface List {
-        ValidateAssertTrue[] value();
+    @interface List {
+        NumberEnum[] value();
     }
 }

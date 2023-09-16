@@ -1,6 +1,6 @@
 package com.github.mimiknight.kuca.validation.validator;
 
-import com.github.mimiknight.kuca.validation.annotation.validation.ValidatePast;
+import com.github.mimiknight.kuca.validation.annotation.validation.Past;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -17,10 +17,9 @@ import java.util.Date;
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:13:23
  */
-public class PastValidator implements ConstraintValidator<ValidatePast, Object> {
+public class PastValidator implements ConstraintValidator<Past, Object> {
     @Override
-    public void initialize(ValidatePast constraintAnnotation) {
-        ConstraintValidator.super.initialize(constraintAnnotation);
+    public void initialize(Past constraintAnnotation) {
     }
 
     @Override
@@ -29,39 +28,39 @@ public class PastValidator implements ConstraintValidator<ValidatePast, Object> 
             return true;
         }
         // Date
-        if (value instanceof Date date) {
+        if (value instanceof Date) {
             Date now = Date.from(Instant.now());
-            return now.after(date);
+            return now.after((Date) value);
         }
         // LocalTime
-        if (value instanceof LocalTime date) {
+        if (value instanceof LocalTime) {
             LocalTime now = LocalTime.now();
-            return now.isAfter(date);
+            return now.isAfter((LocalTime) value);
         }
         // LocalDate
-        if (value instanceof LocalDate date) {
+        if (value instanceof LocalDate) {
             LocalDate now = LocalDate.now();
-            return now.isAfter(date);
+            return now.isAfter((LocalDate) value);
         }
         // LocalDateTime
-        if (value instanceof LocalDateTime date) {
+        if (value instanceof LocalDateTime) {
             LocalDateTime now = LocalDateTime.now();
-            return now.isAfter(date);
+            return now.isAfter((LocalDateTime) value);
         }
         // ZonedDateTime
-        if (value instanceof ZonedDateTime date) {
+        if (value instanceof ZonedDateTime) {
             ZonedDateTime now = ZonedDateTime.now();
-            return now.isAfter(date);
+            return now.isAfter((ZonedDateTime) value);
         }
         // OffsetDateTime
-        if (value instanceof OffsetDateTime date) {
+        if (value instanceof OffsetDateTime) {
             OffsetDateTime now = OffsetDateTime.now();
-            return now.isAfter(date);
+            return now.isAfter((OffsetDateTime) value);
         }
         // OffsetTime
-        if (value instanceof OffsetTime date) {
+        if (value instanceof OffsetTime) {
             OffsetTime now = OffsetTime.now();
-            return now.isAfter(date);
+            return now.isAfter((OffsetTime) value);
         }
         // 默认放通
         return true;

@@ -1,7 +1,6 @@
 package com.github.mimiknight.kuca.validation.annotation.validation;
 
 import com.github.mimiknight.kuca.validation.annotation.Constraint;
-import com.github.mimiknight.kuca.validation.validator.SizeValidator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -11,17 +10,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 最小值校验注解
+ * 元素值的范围校验注解
  *
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:05:34
  */
-@Constraint(validatedBy = {SizeValidator.class})
+@Constraint(validatedBy = {})
 @Documented
 @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 @Retention(value = RetentionPolicy.RUNTIME)
-@Repeatable(value = ValidateMin.List.class)
-public @interface ValidateMin {
+@Repeatable(value = Range.List.class)
+public @interface Range {
 
     /**
      * 最小值
@@ -31,20 +30,18 @@ public @interface ValidateMin {
     double min() default 0;
 
     /**
-     * 精确度
-     * <p>
-     * 默认：10负6次方
+     * 最大值
      *
-     * @return double
+     * @return int
      */
-    double delta() default 1E-6;
+    double max() default Integer.MAX_VALUE;
 
     /**
      * 消息
      *
      * @return {@link String}
      */
-    String message() default "{cn.yhm.developer.kuca.validation.annotation.ValidateMin.message}";
+    String message() default "{com.github.mimiknight.kuca.validation.annotation.validation.Range.message}";
 
     /**
      * 错误码
@@ -64,6 +61,6 @@ public @interface ValidateMin {
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     @interface List {
-        ValidateMin[] value();
+        Range[] value();
     }
 }

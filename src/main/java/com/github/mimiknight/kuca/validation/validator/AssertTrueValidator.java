@@ -1,6 +1,6 @@
 package com.github.mimiknight.kuca.validation.validator;
 
-import com.github.mimiknight.kuca.validation.annotation.validation.ValidateAssertTrue;
+import com.github.mimiknight.kuca.validation.annotation.validation.AssertTrue;
 
 /**
  * 参数为true校验器
@@ -8,10 +8,9 @@ import com.github.mimiknight.kuca.validation.annotation.validation.ValidateAsser
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:13:23
  */
-public class AssertTrueValidator implements ConstraintValidator<ValidateAssertTrue, Boolean> {
+public class AssertTrueValidator implements ConstraintValidator<AssertTrue, Boolean> {
     @Override
-    public void initialize(ValidateAssertTrue constraintAnnotation) {
-        ConstraintValidator.super.initialize(constraintAnnotation);
+    public void initialize(AssertTrue constraintAnnotation) {
     }
 
     @Override

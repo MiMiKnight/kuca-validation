@@ -1,6 +1,6 @@
 package com.github.mimiknight.kuca.validation.validator;
 
-import com.github.mimiknight.kuca.validation.annotation.validation.ValidateSize;
+import com.github.mimiknight.kuca.validation.annotation.validation.Size;
 
 import java.lang.reflect.Array;
 import java.util.Collection;
@@ -12,13 +12,13 @@ import java.util.Map;
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:13:23
  */
-public class SizeValidator implements ConstraintValidator<ValidateSize, Object> {
+public class SizeValidator implements ConstraintValidator<Size, Object> {
 
     private int min;
     private int max;
 
     @Override
-    public void initialize(ValidateSize constraintAnnotation) {
+    public void initialize(Size constraintAnnotation) {
         this.min = constraintAnnotation.min();
         this.max = constraintAnnotation.max();
     }
@@ -29,7 +29,8 @@ public class SizeValidator implements ConstraintValidator<ValidateSize, Object> 
             return true;
         }
         // 字符串
-        if (value instanceof String str) {
+        if (value instanceof String) {
+            String str = (String) value;
             return valid(str.length());
         }
         // 数组
@@ -37,11 +38,13 @@ public class SizeValidator implements ConstraintValidator<ValidateSize, Object> 
             return valid(Array.getLength(value));
         }
         // 单列集合
-        if (value instanceof Collection<?> collection) {
+        if (value instanceof Collection<?>) {
+            Collection<?> collection = (Collection<?>) value;
             return valid(collection.size());
         }
         // 双列集合
-        if (value instanceof Map<?, ?> map) {
+        if (value instanceof Map<?, ?>) {
+            Map<?, ?> map = (Map<?, ?>) value;
             return valid(map.size());
         }
         // 默认放通

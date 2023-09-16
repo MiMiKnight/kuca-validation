@@ -1,7 +1,7 @@
 package com.github.mimiknight.kuca.validation.annotation.validation;
 
 import com.github.mimiknight.kuca.validation.annotation.Constraint;
-import com.github.mimiknight.kuca.validation.validator.SizeValidator;
+import com.github.mimiknight.kuca.validation.validator.NotEmptyValidator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -11,40 +11,33 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 最大值校验注解
+ * 参数非空校验注解
+ *
+ * <p>
+ * 字符串的字符个数不为零 {@link String}
+ * <p>
+ * 数组的元素个数不为零
+ * <p>
+ * 单列集合的元素个数不为零 {@link java.util.Collection}
+ * <p>
+ * 双列集合的元素个数不为零 {@link java.util.Map}
  *
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:05:34
  */
-@Constraint(validatedBy = {SizeValidator.class})
+@Constraint(validatedBy = {NotEmptyValidator.class})
 @Documented
 @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 @Retention(value = RetentionPolicy.RUNTIME)
-@Repeatable(value = ValidateMax.List.class)
-public @interface ValidateMax {
-
-    /**
-     * 最大值
-     *
-     * @return int
-     */
-    double max() default Integer.MAX_VALUE;
-
-    /**
-     * 精确度
-     * <p>
-     * 默认：10负6次方
-     *
-     * @return double
-     */
-    double delta() default 1E-6;
+@Repeatable(value = NotEmpty.List.class)
+public @interface NotEmpty {
 
     /**
      * 消息
      *
      * @return {@link String}
      */
-    String message() default "{cn.yhm.developer.kuca.validation.annotation.ValidateMax.message}";
+    String message() default "{com.github.mimiknight.kuca.validation.annotation.validation.NotEmpty.message}";
 
     /**
      * 错误码
@@ -64,6 +57,6 @@ public @interface ValidateMax {
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     @interface List {
-        ValidateMax[] value();
+        NotEmpty[] value();
     }
 }

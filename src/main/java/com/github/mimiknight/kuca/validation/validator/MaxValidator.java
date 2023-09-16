@@ -1,6 +1,6 @@
 package com.github.mimiknight.kuca.validation.validator;
 
-import com.github.mimiknight.kuca.validation.annotation.validation.ValidateMax;
+import com.github.mimiknight.kuca.validation.annotation.validation.Max;
 
 /**
  * 最大值校验器
@@ -8,12 +8,12 @@ import com.github.mimiknight.kuca.validation.annotation.validation.ValidateMax;
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:13:23
  */
-public class MaxValidator implements ConstraintValidator<ValidateMax, Number> {
+public class MaxValidator implements ConstraintValidator<Max, Number> {
     private double max;
     private double delta;
 
     @Override
-    public void initialize(ValidateMax constraintAnnotation) {
+    public void initialize(Max constraintAnnotation) {
         this.max = constraintAnnotation.max();
         this.delta = constraintAnnotation.delta();
     }

@@ -1,7 +1,7 @@
 package com.github.mimiknight.kuca.validation.annotation.validation;
 
 import com.github.mimiknight.kuca.validation.annotation.Constraint;
-import com.github.mimiknight.kuca.validation.validator.PatternValidator;
+import com.github.mimiknight.kuca.validation.validator.PastValidator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -11,31 +11,30 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 正则校验注解
+ * 过去时间校验注解
+ * <p>
+ * 支持校验以下两种时间类型：
+ * <p>
+ * Date {@link java.util.Date}
+ * <p>
+ * ZonedDateTime {@link java.time.ZonedDateTime}
  *
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:05:34
  */
-@Constraint(validatedBy = {PatternValidator.class})
+@Constraint(validatedBy = {PastValidator.class})
 @Documented
 @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 @Retention(value = RetentionPolicy.RUNTIME)
-@Repeatable(value = ValidatePattern.List.class)
-public @interface ValidatePattern {
-
-    /**
-     * 正则表达式
-     *
-     * @return {@link String}
-     */
-    String regex() default "";
+@Repeatable(value = Past.List.class)
+public @interface Past {
 
     /**
      * 消息
      *
      * @return {@link String}
      */
-    String message() default "{cn.yhm.developer.kuca.validation.annotation.ValidatePattern.message}";
+    String message() default "{com.github.mimiknight.kuca.validation.annotation.validation.Past.message}";
 
     /**
      * 错误码
@@ -55,6 +54,6 @@ public @interface ValidatePattern {
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     @interface List {
-        ValidatePattern[] value();
+        Past[] value();
     }
 }

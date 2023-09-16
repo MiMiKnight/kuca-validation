@@ -1,6 +1,6 @@
 package com.github.mimiknight.kuca.validation.validator;
 
-import com.github.mimiknight.kuca.validation.annotation.validation.ValidateNumberEnum;
+import com.github.mimiknight.kuca.validation.annotation.validation.NumberEnum;
 
 import java.util.Arrays;
 
@@ -10,13 +10,13 @@ import java.util.Arrays;
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:13:23
  */
-public class NumberEnumValidator implements ConstraintValidator<ValidateNumberEnum, Number> {
+public class NumberEnumValidator implements ConstraintValidator<NumberEnum, Number> {
 
     private double[] enumValueArray;
     private double delta;
 
     @Override
-    public void initialize(ValidateNumberEnum constraintAnnotation) {
+    public void initialize(NumberEnum constraintAnnotation) {
         this.enumValueArray = constraintAnnotation.value();
         this.delta = constraintAnnotation.delta();
     }

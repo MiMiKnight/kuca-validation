@@ -1,7 +1,7 @@
 package com.github.mimiknight.kuca.validation.annotation.validation;
 
 import com.github.mimiknight.kuca.validation.annotation.Constraint;
-import com.github.mimiknight.kuca.validation.validator.NegativeValidator;
+import com.github.mimiknight.kuca.validation.validator.SizeValidator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -11,24 +11,40 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 负数校验注解
+ * 最大值校验注解
  *
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:05:34
  */
-@Constraint(validatedBy = {NegativeValidator.class})
+@Constraint(validatedBy = {SizeValidator.class})
 @Documented
 @Target(value = {ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 @Retention(value = RetentionPolicy.RUNTIME)
-@Repeatable(value = ValidateNegative.List.class)
-public @interface ValidateNegative {
+@Repeatable(value = Max.List.class)
+public @interface Max {
+
+    /**
+     * 最大值
+     *
+     * @return int
+     */
+    double max() default Integer.MAX_VALUE;
+
+    /**
+     * 精确度
+     * <p>
+     * 默认：10负6次方
+     *
+     * @return double
+     */
+    double delta() default 1E-6;
 
     /**
      * 消息
      *
      * @return {@link String}
      */
-    String message() default "{cn.yhm.developer.kuca.validation.annotation.ValidateNegative.message}";
+    String message() default "{com.github.mimiknight.kuca.validation.annotation.validation.Max.message}";
 
     /**
      * 错误码
@@ -48,6 +64,6 @@ public @interface ValidateNegative {
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
     @interface List {
-        ValidateNegative[] value();
+        Max[] value();
     }
 }
