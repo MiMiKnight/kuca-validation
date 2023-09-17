@@ -1,13 +1,16 @@
 package com.github.mimiknight.kuca.validation.utils;
 
 import com.github.mimiknight.kuca.validation.annotation.Constraint;
+import com.github.mimiknight.kuca.validation.annotation.Validated;
 import com.github.mimiknight.kuca.validation.exception.CreateInstanceException;
+import com.github.mimiknight.kuca.validation.exception.MethodParameterNotValidException;
 import com.github.mimiknight.kuca.validation.exception.NoValidatorBeSetException;
 import com.github.mimiknight.kuca.validation.validator.ConstraintValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 
 /**
  * 校验工具类
@@ -19,6 +22,67 @@ import java.lang.annotation.Annotation;
 public class ValidateUtils {
 
     private ValidateUtils() {
+    }
+
+    public static <T> void validate(T target) {
+        // 目标对象为空则不执行校验逻辑
+        if (null == target) {
+            return;
+        }
+        Class<?> targetClass = target.getClass();
+        Validated validatedAnnotation = targetClass.getDeclaredAnnotation(Validated.class);
+        // 目标对象没有被Validated注解注释则不执行校验逻辑
+        if (null == validatedAnnotation) {
+            return;
+        }
+        Field[] fields = targetClass.getDeclaredFields();
+        // 没有设置成员变量则不执行校验逻辑
+        if (ArrayUtils.isEmpty(fields)) {
+            return;
+        }
+        for (Field field : fields) {
+            // 获取字段值
+            Object value = getFieldValue(target, field);
+            // 获取字段java属性名
+            String fieldName = field.getName();
+            // TODO 获取字段 JSON名称
+            // 获取字段上的注解数组
+            Annotation[] annotations = field.getDeclaredAnnotations();
+            for (Annotation annotation : annotations) {
+                boolean result = validate(annotation, value);
+                if (!result) {
+                    throw new MethodParameterNotValidException("param valid not pass.");
+                }
+            }
+        }
+    }
+
+    private static <T> Object getFieldValue(T target, Field field) {
+        Object value;
+        try {
+            if (!field.isAccessible()) {
+                field.setAccessible(true);
+            }
+            value = field.get(target);
+        } catch (Exception e) {
+            // TODO 待完善
+            return null;
+        }
+        return value;
+    }
+
+    public static <V, A extends Annotation> boolean validate(A[] annotations, V value) {
+        if (ArrayUtils.isEmpty(annotations)) {
+            return true;
+        }
+        boolean result = false;
+        for (A annotation : annotations) {
+            // 如果校验未通过，则报错提醒
+            if (!validate(annotation, value)) {
+                return false;
+            }
+        }
+        return result;
     }
 
     /**

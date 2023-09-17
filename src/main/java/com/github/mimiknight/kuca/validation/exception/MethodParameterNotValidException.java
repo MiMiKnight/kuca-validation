@@ -13,7 +13,7 @@ public class MethodParameterNotValidException extends RuntimeException {
      *
      * @param message 消息
      */
-    MethodParameterNotValidException(String message) {
+    public MethodParameterNotValidException(String message) {
         super(message);
     }
 }
