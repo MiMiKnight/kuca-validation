@@ -21,11 +21,23 @@ public class ConstraintAnnotationDescriptor<A extends Annotation> extends Annota
     }
 
     public String getErrorCode() {
-        return getMandatoryAttribute("errorCode", String.class);
+        return getMandatoryAttribute(ConstraintHelper.ERROR_CODE, String.class);
     }
-    
+
     public String getMessage() {
-        return getMandatoryAttribute("message", String.class);
+        return getMandatoryAttribute(ConstraintHelper.MESSAGE, String.class);
+    }
+
+    public Class<?>[] getGroups() {
+        return getMandatoryAttribute( ConstraintHelper.GROUPS, Class[].class );
+    }
+
+    public static class Builder<S extends Annotation> extends AnnotationDescriptor.Builder<S> {
+
+        @Override
+        public ConstraintAnnotationDescriptor<S> build() {
+            return new ConstraintAnnotationDescriptor<>( super.build() );
+        }
     }
 
 }
