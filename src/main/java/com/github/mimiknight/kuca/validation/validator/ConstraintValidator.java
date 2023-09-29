@@ -8,7 +8,7 @@ import java.lang.annotation.Annotation;
  * @author victor2015yhm@gmail.com
  * @since 2023-06-07 20:10:52
  */
-public interface ConstraintValidator<A extends Annotation, T> {
+public interface ConstraintValidator<A extends Annotation, V> {
 
     /**
      * 初始化
@@ -24,5 +24,5 @@ public interface ConstraintValidator<A extends Annotation, T> {
      * @param value 被校验值
      * @return boolean
      */
-    boolean isValid(T value);
+    boolean isValid(V value);
 }

@@ -9,9 +9,6 @@ import com.github.mimiknight.kuca.validation.annotation.validation.AssertTrue;
  * @since 2023-06-07 20:13:23
  */
 public class AssertTrueValidator implements ConstraintValidator<AssertTrue, Boolean> {
-    @Override
-    public void initialize(AssertTrue constraintAnnotation) {
-    }
 
     @Override
     public boolean isValid(Boolean value) {

@@ -1,6 +1,7 @@
 package com.github.mimiknight.kuca.validation.annotation.validation;
 
 import com.github.mimiknight.kuca.validation.annotation.Constraint;
+import com.github.mimiknight.kuca.validation.constant.Scope;
 import com.github.mimiknight.kuca.validation.validator.AssertFalseValidator;
 
 import java.lang.annotation.Documented;
@@ -36,6 +37,13 @@ public @interface AssertFalse {
      * @return {@link String}
      */
     String errorCode() default "";
+
+    /**
+     * 校验注解作用域
+     *
+     * @return {@link Scope}
+     */
+    Scope scope() default Scope.FIELD;
 
     /**
      * 分组

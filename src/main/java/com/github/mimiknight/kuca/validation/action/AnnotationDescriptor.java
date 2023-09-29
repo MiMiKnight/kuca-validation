@@ -55,8 +55,8 @@ public class AnnotationDescriptor<A extends Annotation> implements Serializable 
         return hashCode;
     }
 
-    public boolean hasAttribute(String key) {
-        return attributes.containsKey(key);
+    public boolean hasAttribute(String attributeName) {
+        return attributes.containsKey(attributeName);
     }
 
     @SuppressWarnings("unchecked")
@@ -95,7 +95,6 @@ public class AnnotationDescriptor<A extends Annotation> implements Serializable 
     private static <V> V run(PrivilegedAction<V> action) {
         return System.getSecurityManager() != null ? AccessController.doPrivileged(action) : action.run();
     }
-
 
     public static class Builder<S extends Annotation> {
         private S annotation;
