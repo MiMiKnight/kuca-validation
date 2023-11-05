@@ -1,12 +1,12 @@
 package com.github.mimiknight.kuca.validation.action;
 
-import com.github.mimiknight.kuca.validation.annotation.Constraint;
 import com.github.mimiknight.kuca.validation.exception.ValidationException;
-import com.github.mimiknight.kuca.validation.validator.ConstraintValidator;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.util.Assert;
 
+import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -30,8 +30,9 @@ public class ConstraintHelper {
 
     public static final String MESSAGE = "message";
     public static final String ERROR_CODE = "errorCode";
-    public static final String SCOPE = "scope";
     public static final String GROUPS = "groups";
+    public static final String PAYLOAD = "payload";
+    public static final String VALIDATION_APPLIES_TO = "validationAppliesTo";
 
     /**
      * 获取目标对象的全部成员属性字段
@@ -58,6 +59,12 @@ public class ConstraintHelper {
         return fields;
     }
 
+    /**
+     * 判断是否为自定义的校验注解
+     *
+     * @param annotation 注解
+     * @return boolean
+     */
     public static <A extends Annotation> boolean isConstraintAnnotation(A annotation) {
         Assert.notNull(annotation, "Parameter must not be null.");
 
@@ -80,8 +87,8 @@ public class ConstraintHelper {
             return false;
         }
 
-        ConstraintAnnotationDescriptor.Builder<A> builder = new ConstraintAnnotationDescriptor.Builder<>();
-        ConstraintAnnotationDescriptor<A> descriptor = builder.setAnnotation(annotation).build();
+        ConstraintAnnotationDescriptor.Builder<A> builder = new ConstraintAnnotationDescriptor.Builder<>(annotation);
+        ConstraintAnnotationDescriptor<A> descriptor = builder.build();
 
         // 目标对象属性为空，则非校验注解
         Map<String, Object> attributes = descriptor.getAttributes();
@@ -91,13 +98,11 @@ public class ConstraintHelper {
 
         Object errorCode = attributes.get(ERROR_CODE);
         Object message = attributes.get(MESSAGE);
-        Object scope = attributes.get(SCOPE);
-        // 目标对象指定属性不存在，则非校验注解
-        if (null == errorCode || null == message || null == scope) {
-            return false;
-        }
+        Object group = attributes.get(GROUPS);
+        Object payload = attributes.get(PAYLOAD);
 
-        return true;
+        // 目标对象指定属性不存在，则非校验注解
+        return (null != errorCode && null != message && null != group && null != payload);
     }
 
 

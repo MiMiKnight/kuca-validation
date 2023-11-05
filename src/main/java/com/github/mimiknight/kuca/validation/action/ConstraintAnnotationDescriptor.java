@@ -1,9 +1,12 @@
 package com.github.mimiknight.kuca.validation.action;
 
-import com.github.mimiknight.kuca.validation.constant.Scope;
-import com.github.mimiknight.kuca.validation.exception.ValidationException;
 
+import org.hibernate.validator.internal.util.annotation.AnnotationDescriptor;
+
+import javax.validation.ConstraintTarget;
+import javax.validation.Payload;
 import java.lang.annotation.Annotation;
+import java.util.Map;
 
 /**
  * 约束注解描述类
@@ -11,44 +14,90 @@ import java.lang.annotation.Annotation;
  * @author MiMiKnight victor2015yhm@gmail.com
  * @since 2023-09-24 23:50:20
  */
-public final class ConstraintAnnotationDescriptor<A extends Annotation> extends AnnotationDescriptor<A> {
+public class ConstraintAnnotationDescriptor<A extends Annotation> extends AnnotationDescriptor<A> {
 
-    private static final long serialVersionUID = -690092475442072888L;
+    private static final long serialVersionUID = 1924242135638034072L;
 
-    private ConstraintAnnotationDescriptor(A annotation) {
+    public ConstraintAnnotationDescriptor(A annotation) {
         super(annotation);
     }
 
-    private ConstraintAnnotationDescriptor(AnnotationDescriptor<A> descriptor) {
+    public ConstraintAnnotationDescriptor(AnnotationDescriptor<A> descriptor) {
         super(descriptor);
     }
 
+    /**
+     * 获取错误码
+     */
     public String getErrorCode() {
         return getMandatoryAttribute(ConstraintHelper.ERROR_CODE, String.class);
     }
 
+    /**
+     * 获取提示消息
+     */
     public String getMessage() {
         return getMandatoryAttribute(ConstraintHelper.MESSAGE, String.class);
     }
 
-    public Scope getScope() {
-        return getMandatoryAttribute(ConstraintHelper.SCOPE, Scope.class);
-    }
-
+    /**
+     * 获取分组
+     */
     public Class<?>[] getGroups() {
         return getMandatoryAttribute(ConstraintHelper.GROUPS, Class[].class);
     }
 
+    /**
+     * 获取载荷
+     */
+    @SuppressWarnings("unchecked")
+    public Class<? extends Payload>[] getPayload() {
+        return getMandatoryAttribute(ConstraintHelper.PAYLOAD, Class[].class);
+    }
+
+    /**
+     * 获取 应用目标
+     */
+    public ConstraintTarget getValidationAppliesTo() {
+        return getAttribute(ConstraintHelper.VALIDATION_APPLIES_TO, ConstraintTarget.class);
+    }
+
     public static class Builder<S extends Annotation> extends AnnotationDescriptor.Builder<S> {
 
-        @Override
-        public ConstraintAnnotationDescriptor.Builder<S> setAnnotation(S annotation) {
+        public Builder(Class<S> type) {
+            super(type);
+        }
 
-            if (!ConstraintHelper.isConstraintAnnotation(annotation)) {
-                throw new ValidationException("The parameter annotation is not constraint annotation type.");
-            }
+        public Builder(Class<S> type, Map<String, Object> attributes) {
+            super(type, attributes);
+        }
 
-            super.setAnnotation(annotation);
+        public Builder(S annotation) {
+            super(annotation);
+        }
+
+        public ConstraintAnnotationDescriptor.Builder<S> setErrorCode(String errorCode) {
+            setAttribute(ConstraintHelper.ERROR_CODE, errorCode);
+            return this;
+        }
+
+        public ConstraintAnnotationDescriptor.Builder<S> setMessage(String message) {
+            setAttribute(ConstraintHelper.MESSAGE, message);
+            return this;
+        }
+
+        public ConstraintAnnotationDescriptor.Builder<S> setGroups(Class<?>[] groups) {
+            setAttribute(ConstraintHelper.GROUPS, groups);
+            return this;
+        }
+
+        public ConstraintAnnotationDescriptor.Builder<S> setPayload(Class<?>[] payload) {
+            setAttribute(ConstraintHelper.PAYLOAD, payload);
+            return this;
+        }
+
+        public ConstraintAnnotationDescriptor.Builder<S> setValidationAppliesTo(ConstraintTarget validationAppliesTo) {
+            setAttribute(ConstraintHelper.VALIDATION_APPLIES_TO, validationAppliesTo);
             return this;
         }
 
@@ -57,5 +106,4 @@ public final class ConstraintAnnotationDescriptor<A extends Annotation> extends 
             return new ConstraintAnnotationDescriptor<>(super.build());
         }
     }
-
 }
