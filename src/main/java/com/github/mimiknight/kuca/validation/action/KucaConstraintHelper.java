@@ -2,15 +2,21 @@ package com.github.mimiknight.kuca.validation.action;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.mimiknight.kuca.validation.exception.ValidationException;
+import com.github.mimiknight.kuca.validation.model.AnnotationParamValidErrorTip;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
+import org.hibernate.validator.internal.engine.path.NodeImpl;
+import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
@@ -32,6 +38,7 @@ import java.util.stream.Collectors;
  * @author MiMiKnight victor2015yhm@gmail.com
  * @since 2023-09-28 00:43:27
  */
+@Slf4j
 public class KucaConstraintHelper {
 
     private KucaConstraintHelper() {
@@ -75,9 +82,7 @@ public class KucaConstraintHelper {
      * @return {@link Field}
      */
     @Validated
-    public static <T> Field getFieldByNameAndType(@NotNull Object target,
-                                                  @NotBlank String fieldName,
-                                                  @NotNull Class<T> fieldType) {
+    public static <T> Field getFieldByNameAndType(@NotNull Object target, @NotBlank String fieldName, @NotNull Class<T> fieldType) {
         List<Field> fields = getFields(target);
 
         if (CollectionUtils.isEmpty(fields)) {
@@ -148,10 +153,29 @@ public class KucaConstraintHelper {
      * @param annotation 注解实例
      * @return {@link KucaConstraintAnnotationDescriptor}<{@link A}>
      */
-    public static <A extends Annotation> KucaConstraintAnnotationDescriptor<A> getKucaConstraintAnnotationDescriptor(A annotation) {
+    public static <A extends Annotation> KucaConstraintAnnotationDescriptor<A> createKucaConstraintAnnotationDescriptor(A annotation) {
         return new KucaConstraintAnnotationDescriptor.Builder<>(annotation).build();
     }
 
+    /**
+     * 获取字段名
+     *
+     * @param violation 约束冲突
+     * @return {@link String}
+     */
+    @SuppressWarnings({"rawtypes"})
+    public static String getFieldName(ConstraintViolationImpl violation) {
+
+        PathImpl propertyPath = (PathImpl) violation.getPropertyPath();
+        NodeImpl leafNode = propertyPath.getLeafNode();
+
+        // 当注解校验的元素 不是数组、Collection或者Map的子元素时，此name为属性名
+        String name = leafNode.getName();
+        // 当注解校验的元素是数组、Collection或者Map的子元素时，parentName才为字段属性名
+        String parentName = leafNode.getParent().getName();
+
+        return (null == parentName) ? name : parentName;
+    }
 
     /**
      * 获取字段展示名称
@@ -174,11 +198,60 @@ public class KucaConstraintHelper {
     @Validated
     public static String getFieldDisplayName(@NotNull Object target, @NotBlank String fieldName) {
         try {
-            Field field = target.getClass().getField(fieldName);
+            Field field = target.getClass().getDeclaredField(fieldName);
             return getFieldDisplayName(field);
         } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
+            throw new ValidationException(e);
         }
+    }
+
+    /**
+     * 获取注解校验错误信息提示对象
+     *
+     * @param ex MethodArgumentNotValidException
+     * @return {@link AnnotationParamValidErrorTip}
+     */
+    @SuppressWarnings({"rawtypes"})
+    public static AnnotationParamValidErrorTip createAnnotationParamValidErrorTip(MethodArgumentNotValidException ex) {
+
+        AnnotationParamValidErrorTip tip = new AnnotationParamValidErrorTip();
+
+        BindingResult bindingResult = ex.getBindingResult();
+        // 目标对象
+        Object target = bindingResult.getTarget();
+
+        if (null == target) {
+            return tip;
+        }
+
+        // 字段错误对象
+        FieldError fieldError = bindingResult.getFieldError();
+
+        if (null == fieldError) {
+            return tip;
+        }
+
+        // 错误提示消息
+        String errorTipMessage = fieldError.getDefaultMessage();
+        // 约束冲突实现类
+        ConstraintViolationImpl violation = KucaConstraintHelper.getConstraintViolation(fieldError);
+
+        if (null == violation) {
+            return tip;
+        }
+
+        // 原生约束注解对象
+        Annotation constraintAnnotation = KucaConstraintHelper.getConstraintAnnotation(violation);
+        // Kuca约束注解描述对象
+        KucaConstraintAnnotationDescriptor<Annotation> descriptor = createKucaConstraintAnnotationDescriptor(constraintAnnotation);
+        // 错误码
+        String errorCode = descriptor.getErrorCode();
+        // 字段展示名称
+        String fieldName = getFieldName(violation);
+        // 字段展示名称
+        String fieldDisplayName = getFieldDisplayName(target, fieldName);
+
+        return tip.setErrorCode(errorCode).setFieldName(fieldDisplayName).setMessage(errorTipMessage);
     }
 
     /**
@@ -228,6 +301,7 @@ public class KucaConstraintHelper {
     }
 
 
+    @SuppressWarnings({"unchecked"})
     public static <A extends Annotation, V> List<ConstraintValidator<A, V>> getValidators(A annotation) {
         Class<? extends Annotation> clazz = annotation.getClass();
         Constraint constraint = clazz.getDeclaredAnnotation(Constraint.class);

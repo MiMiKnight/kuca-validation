@@ -31,7 +31,7 @@ public class KucaConstraintAnnotationDescriptor<A extends Annotation> extends An
      * 获取错误码
      */
     public String getErrorCode() {
-        return getMandatoryAttribute(KucaConstraintHelper.ERROR_CODE, String.class);
+        return getAttribute(KucaConstraintHelper.ERROR_CODE, String.class);
     }
 
     /**
